@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Nur Fatimatuz Zahro" />
+
+<meta name="date" content="2021-02-28" />
+
+<title>Membuat Website Sederhana Dengan Rstudio</title>
+
+<script src="site_libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-sm-12 col-md-8 col-lg-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">My Website</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Membuat Website Sederhana Dengan Rstudio</h1>
+<h4 class="author">Nur Fatimatuz Zahro</h4>
+<h4 class="date">28 February 2021</h4>
+
+</div>
+
+
+<div id="pengertian" class="section level1">
+<h1>Pengertian</h1>
+<p>Matrix adalah kumpulan bilangan yang didalam satu kurung yang sama.<br> disusun secara baris, kolom, ataupun keduanya.<br> <img src= "https://3.bp.blogspot.com/--_eVb0OYIxQ/WHlnSGafPDI/AAAAAAAAAJc/CnUliuw0Q24P9o-N8Lu4Uf4YqcLEQn16gCLcB/s1600/cara-menghitung-rumus-perkalian-matriks-dan-rumus-perkalian-skalar-matriks-matematika.png" style="width:35%;height:35%;"></p>
+</div>
+<div id="membuat-matrix" class="section level1">
+<h1>Membuat Matrix</h1>
+<div id="contoh-1" class="section level2">
+<h2>Contoh 1</h2>
+<pre class="r"><code>A &lt;- matrix(data = 1:25, nrow = 5, ncol = 5, byrow = TRUE)
+A</code></pre>
+<pre><code>##      [,1] [,2] [,3] [,4] [,5]
+## [1,]    1    2    3    4    5
+## [2,]    6    7    8    9   10
+## [3,]   11   12   13   14   15
+## [4,]   16   17   18   19   20
+## [5,]   21   22   23   24   25</code></pre>
+</div>
+<div id="contoh-2" class="section level2">
+<h2>Contoh 2</h2>
+<pre class="r"><code>B &lt;- matrix(data = 25:49, nrow = 5, ncol = 5, byrow = FALSE)
+B</code></pre>
+<pre><code>##      [,1] [,2] [,3] [,4] [,5]
+## [1,]   25   30   35   40   45
+## [2,]   26   31   36   41   46
+## [3,]   27   32   37   42   47
+## [4,]   28   33   38   43   48
+## [5,]   29   34   39   44   49</code></pre>
+</div>
+</div>
+<div id="operasi-matematika" class="section level1 tabset">
+<h1 class="tabset">Operasi Matematika</h1>
+<div id="penjumlahan" class="section level2">
+<h2>Penjumlahan</h2>
+<pre class="r"><code>A + B</code></pre>
+<pre><code>##      [,1] [,2] [,3] [,4] [,5]
+## [1,]   26   32   38   44   50
+## [2,]   32   38   44   50   56
+## [3,]   38   44   50   56   62
+## [4,]   44   50   56   62   68
+## [5,]   50   56   62   68   74</code></pre>
+</div>
+<div id="pengurangan" class="section level2">
+<h2>Pengurangan</h2>
+<pre class="r"><code>A - B</code></pre>
+<pre><code>##      [,1] [,2] [,3] [,4] [,5]
+## [1,]  -24  -28  -32  -36  -40
+## [2,]  -20  -24  -28  -32  -36
+## [3,]  -16  -20  -24  -28  -32
+## [4,]  -12  -16  -20  -24  -28
+## [5,]   -8  -12  -16  -20  -24</code></pre>
+</div>
+<div id="perkalian" class="section level2">
+<h2>Perkalian</h2>
+<pre class="r"><code>A * B</code></pre>
+<pre><code>##      [,1] [,2] [,3] [,4] [,5]
+## [1,]   25   60  105  160  225
+## [2,]  156  217  288  369  460
+## [3,]  297  384  481  588  705
+## [4,]  448  561  684  817  960
+## [5,]  609  748  897 1056 1225</code></pre>
+</div>
+<div id="pembagian" class="section level2">
+<h2>Pembagian</h2>
+<pre class="r"><code>A / B</code></pre>
+<pre><code>##           [,1]       [,2]       [,3]      [,4]      [,5]
+## [1,] 0.0400000 0.06666667 0.08571429 0.1000000 0.1111111
+## [2,] 0.2307692 0.22580645 0.22222222 0.2195122 0.2173913
+## [3,] 0.4074074 0.37500000 0.35135135 0.3333333 0.3191489
+## [4,] 0.5714286 0.51515152 0.47368421 0.4418605 0.4166667
+## [5,] 0.7241379 0.64705882 0.58974359 0.5454545 0.5102041</code></pre>
+</div>
+</div>
+<div id="sumber" class="section level1">
+<h1>Sumber</h1>
+<p>Berikut ini adalah sumber yang digunakan dalam pembuatan web ini:</p>
+<ol style="list-style-type: decimal">
+<li><a href="https://rstudio-pubs-static.s3.amazonaws.com/99415_2b07b7f8b93d4d4ca79ade8bacc4f89d.html" class="uri">https://rstudio-pubs-static.s3.amazonaws.com/99415_2b07b7f8b93d4d4ca79ade8bacc4f89d.html</a></li>
+<li><a href="https://www.studiobelajar.com/matriks-dasar/" class="uri">https://www.studiobelajar.com/matriks-dasar/</a></li>
+</ol>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
